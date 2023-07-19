@@ -46,7 +46,7 @@ const home: NightwatchTests = {
           });
         }
       );
-  },
+  }
 };
 
 export default home;

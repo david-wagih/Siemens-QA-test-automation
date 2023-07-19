@@ -14,7 +14,7 @@
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;
   // if this is not specified, the test source must be passed as the second argument to the test runner.
-  src_folders: ['ui_tests','nightwatch'],
+  src_folders: ["ui_tests"],
 
   // See https://nightwatchjs.org/guide/concepts/page-object-model.html
   page_objects_path: [],
@@ -27,10 +27,10 @@ module.exports = {
 
   // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
   plugins: [],
-  
+
   // See https://nightwatchjs.org/guide/concepts/test-globals.html
-  globals_path: '',
-  
+  globals_path: "",
+
   webdriver: {},
 
   test_workers: {
@@ -40,29 +40,28 @@ module.exports = {
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: 'http://localhost',
+      launch_url: "http://localhost",
 
       screenshots: {
         enabled: false,
-        path: 'screens',
+        path: "screens",
         on_failure: true
       },
 
       desiredCapabilities: {
-        browserName: 'chrome'
+        browserName: "chrome"
       },
-      
+
       webdriver: {
         start_process: true,
-        server_path: ''
-      },
-      
+        server_path: ""
+      }
     },
-    
+
     chrome: {
       desiredCapabilities: {
-        browserName: 'chrome',
-        'goog:chromeOptions': {
+        browserName: "chrome",
+        "goog:chromeOptions": {
           // More info on Chromedriver: https://sites.google.com/a/chromium.org/chromedriver/
           //
           // w3c:false tells Chromedriver to run using the legacy JSONWire protocol (not required in Chrome 78)
@@ -78,13 +77,11 @@ module.exports = {
 
       webdriver: {
         start_process: true,
-        server_path: '',
+        server_path: "",
         cli_args: [
           // --verbose
         ]
       }
-    },
-    
-  },
-  
+    }
+  }
 };
