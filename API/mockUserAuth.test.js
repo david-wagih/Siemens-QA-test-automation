@@ -53,15 +53,13 @@ describe("PATCH USER BY TOKEN /api/v1/users", () => {
   });
 });
 
-// todo : need to fix this one, it doesn't work for some reason :)
-
 describe("DELETE USER BY TOKEN /api/v1/users", () => {
   test("should return 200 and message of successful delete", async () => {
     const response = await request(app)
       .delete("/api/v1/users")
       .set("Authorization", token);
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: "User deleted with success" });
+    expect(response.body).toEqual({ message: "User deleted with success!" });
   });
 });
 
