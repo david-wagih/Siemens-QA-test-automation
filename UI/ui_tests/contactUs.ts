@@ -51,6 +51,7 @@ const home: NightwatchTests = {
         "Your message has been successfully sent to our team."
       );
   },
+
   "Fill in the form (webmaster) with Valid Data": () => {
     browser
       .url(
@@ -110,7 +111,10 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains("#center_column .alert", "Invalid email address.");
+      .assert.textContains(
+        "#center_column .alert",
+        "The email cannot be blank."
+      );
   },
 
   "Fill in the form (Webmaster) with Invalid email address": () => {
@@ -155,7 +159,10 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains("#center_column .alert", "Invalid email address.");
+      .assert.textContains(
+        "#center_column .alert",
+        "The email cannot be blank."
+      );
   },
 
   "Fill in the form (customer service) with uploading a file": () => {
