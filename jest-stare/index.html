@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jest-stare!</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/diff2html.min.css" rel="stylesheet" type="text/css">
+    <link href="css/jest-stare.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script src="js/diff2html.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/view.js"></script>
+</head>
+
+<body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" id="navbar-title" href="#">jest-stare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="coverage-link" class="nav-link disabled" href="#">Coverage</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-passoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-passoff-switch">
+                                <span class="pass off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-failoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-failoff-switch">
+                                <span class="fail off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-pendingoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-pendingoff-switch">
+                                <span class="pending off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-todooff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-todooff-switch">
+                                <span class="todo off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" disabled>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Search</button>
+                </form> -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+
+        <h1 class="mt-5"></h1>
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <canvas id="test-suites-canvas" width="100" height="100"></canvas>
+                <h2>Test Suites</h2>
+                <div class="list-group">
+                    <p id="test-suites-results" class="list-group-item list-group-item-action">0 passed, 2 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <canvas id="tests-canvas" width="100" height="100"></canvas>
+                <h2>Tests</h2>
+                <div class="list-group">
+                    <p id="tests-results" class="list-group-item list-group-item-action">5 passed, 19 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4" id="snapshots-group">
+                <canvas id="snapshots-canvas" width="100" height="100"></canvas>
+                <h2>Snapshots</h2>
+                <div class="list-group">
+                    <p id="snapshots-results" class="list-group-item list-group-item-action">0 passed, 0 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+        <div id="loading-info" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                aria-valuemax="100" style="width: 100%"></div>
+        </div>
+
+        <div class="d-none" id="test-summary"></div>
+        <div class="d-none" id="test-config">{
+  &quot;additionalResultsProcessors&quot;: [],
+  &quot;resultDir&quot;: &quot;.&#x2F;jest-stare&#x2F;&quot;,
+  &quot;resultHtml&quot;: &quot;index.html&quot;,
+  &quot;resultJson&quot;: &quot;jest-results.json&quot;
+}</div>
+        <div id="accordion">
+            <div class="d-none" id="test-results">{
+  &quot;numFailedTestSuites&quot;: 2,
+  &quot;numFailedTests&quot;: 14,
+  &quot;numPassedTestSuites&quot;: 0,
+  &quot;numPassedTests&quot;: 5,
+  &quot;numPendingTestSuites&quot;: 0,
+  &quot;numPendingTests&quot;: 0,
+  &quot;numRuntimeErrorTestSuites&quot;: 0,
+  &quot;numTodoTests&quot;: 0,
+  &quot;numTotalTestSuites&quot;: 2,
+  &quot;numTotalTests&quot;: 19,
+  &quot;openHandles&quot;: [],
+  &quot;snapshot&quot;: {
+    &quot;added&quot;: 0,
+    &quot;didUpdate&quot;: false,
+    &quot;failure&quot;: false,
+    &quot;filesAdded&quot;: 0,
+    &quot;filesRemoved&quot;: 0,
+    &quot;filesRemovedList&quot;: [],
+    &quot;filesUnmatched&quot;: 0,
+    &quot;filesUpdated&quot;: 0,
+    &quot;matched&quot;: 0,
+    &quot;total&quot;: 0,
+    &quot;unchecked&quot;: 0,
+    &quot;uncheckedKeysByFile&quot;: [],
+    &quot;unmatched&quot;: 0,
+    &quot;updated&quot;: 0
+  },
+  &quot;startTime&quot;: 1689931053272,
+  &quot;success&quot;: false,
+  &quot;testResults&quot;: [
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 1,
+      &quot;numPassingTests&quot;: 5,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1689931054009,
+        &quot;runtime&quot;: 697,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1689931053312
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthValidData.test.js&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 27,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;CREATE NEW USER &#x2F;api&#x2F;v1&#x2F;users should return 200 and message of successful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AUTHENTICATE USER &#x2F;api&#x2F;v1&#x2F;auth&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AUTHENTICATE USER &#x2F;api&#x2F;v1&#x2F;auth should return 200 and message of successful authentication&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful authentication&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;GET USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;GET USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users should return 200 and message of successful authentication&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful authentication&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;PATCH USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;PATCH USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users should return 200 and message of successful update&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful update&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;DELETE USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 403,
+                &quot;expected&quot;: 200,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m403\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthValidData.test.js:61:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;DELETE USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users should return 200 and message of successful delete&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful delete&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;DELETE ALL USERS &#x2F;api&#x2F;v1&#x2F;all-users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;DELETE ALL USERS &#x2F;api&#x2F;v1&#x2F;all-users should return 200 and message of successful delete&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 200 and message of successful delete&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: &quot;\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mDELETE USER BY TOKEN &#x2F;api&#x2F;v1&#x2F;users › should return 200 and message of successful delete\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m200\u001b[39m\n    Received: \u001b[31m403\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 59 |\u001b[39m       \u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m\&quot;&#x2F;api&#x2F;v1&#x2F;users\&quot;\u001b[39m)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 60 |\u001b[39m       \u001b[33m.\u001b[39m\u001b[36mset\u001b[39m(\u001b[32m\&quot;Authorization\&quot;\u001b[39m\u001b[33m,\u001b[39m token)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 61 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 62 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({ message\u001b[33m:\u001b[39m \u001b[32m\&quot;User deleted with success!\&quot;\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 63 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 64 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthValidData.test.js\u001b[39m\u001b[0m\u001b[2m:61:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n&quot;
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 13,
+      &quot;numPassingTests&quot;: 0,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1689931054373,
+        &quot;runtime&quot;: 352,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1689931054021
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with invalid name &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 10,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 200,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:14:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with invalid name &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with invalid email &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 200,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:27:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with invalid email &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with missing name &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 401,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:41:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with missing name &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with missing email &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 200,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:54:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with missing email &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with missing password &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 401,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:67:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with missing password &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;CREATE NEW USER with all three fields missing &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 401,
+                &quot;expected&quot;: 400,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m400\u001b[39m\nReceived: \u001b[31m401\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:78:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;CREATE NEW USER with all three fields missing &#x2F;api&#x2F;v1&#x2F;users should return 400 and message of unsuccessful registeration&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 400 and message of unsuccessful registeration&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AUTHENTICATE USER using invalid email &#x2F;api&#x2F;v1&#x2F;auth&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;Incorrect email or password&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;the email is in a wrong form, please provide it in a correct form&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;the email is in a wrong form, please provide it in a correct form\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;the email is in a wrong form, please provide it in a correct form\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:93:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;AUTHENTICATE USER using invalid email &#x2F;api&#x2F;v1&#x2F;auth should return 401 and message of unsuccessful authentication&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 401 and message of unsuccessful authentication&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AUTHENTICATE USER using missing email &#x2F;api&#x2F;v1&#x2F;auth&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: 200,
+                &quot;expected&quot;: 401,
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m401\u001b[39m\nReceived: \u001b[31m200\u001b[39m&quot;,
+                &quot;name&quot;: &quot;toBe&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\nExpected: \u001b[32m401\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at toBe (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:106:29)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;AUTHENTICATE USER using missing email &#x2F;api&#x2F;v1&#x2F;auth should return 401 and message of unsuccessful authentication&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 0,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 401 and message of unsuccessful authentication&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AUTHENTICATE USER using missing password &#x2F;api&#x2F;v1&#x2F;auth&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;Incorrect email or password&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;the password is missing, please provide it.&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;the password is missing, please provide it.\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;the password is missing, please provide it.\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:120:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;AUTHENTICATE USER using missing password &#x2F;api&#x2F;v1&#x2F;auth should return 401 and message of unsuccessful authentication&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 401 and message of unsuccessful authentication&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;GET USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized to get user&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to get user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to get user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:131:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;GET USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users should return 403 and message of unauthorization&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 403 and message of unauthorization&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;PATCH USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;jwt must be provided&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized to update user&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to update user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;jwt must be provided\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to update user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;jwt must be provided\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:145:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;PATCH USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users should return 403 and message of unauthorization&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 403 and message of unauthorization&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;DELETE USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized to delete&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized to delete user&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized to delete\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete user\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized to delete\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:155:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;DELETE USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users should return 403 and message of unauthorization&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 403 and message of unauthorization&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;DELETE ALL USERS without the key admin &#x2F;api&#x2F;v1&#x2F;all-users&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failureDetails&quot;: [
+            {
+              &quot;matcherResult&quot;: {
+                &quot;actual&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized access&quot;
+                },
+                &quot;expected&quot;: {
+                  &quot;message&quot;: &quot;Unauthorized to delete all users&quot;
+                },
+                &quot;message&quot;: &quot;\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete all users\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized access\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m&quot;,
+                &quot;name&quot;: &quot;toEqual&quot;,
+                &quot;pass&quot;: false
+              }
+            }
+          ],
+          &quot;failureMessages&quot;: [
+            &quot;Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete all users\&quot;,\u001b[39m\n\u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized access\&quot;,\u001b[39m\n\u001b[2m  }\u001b[22m\n    at toEqual (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;API&#x2F;mockUserAuthInValidData.test.js:163:27)\n    at tryCatch (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:44:17)\n    at Generator.&lt;anonymous&gt; (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:125:22)\n    at Generator.next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js:69:21)\n    at asyncGeneratorStep (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:3:24)\n    at _next (&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js:22:9)\n    at processTicksAndRejections (node:internal&#x2F;process&#x2F;task_queues:95:5)&quot;
+          ],
+          &quot;fullName&quot;: &quot;DELETE ALL USERS without the key admin &#x2F;api&#x2F;v1&#x2F;all-users should return 403 and message of successful delete&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;status&quot;: &quot;failed&quot;,
+          &quot;title&quot;: &quot;should return 403 and message of successful delete&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: &quot;\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with invalid name &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 12 |\u001b[39m       password\u001b[33m:\u001b[39m \u001b[32m\&quot;password\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 13 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 14 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 15 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 16 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;the name should only be composed of letters\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 17 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:14:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with invalid email &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 25 |\u001b[39m       password\u001b[33m:\u001b[39m \u001b[32m\&quot;password\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 26 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 27 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 28 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 29 |\u001b[39m       message\u001b[33m:\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 |\u001b[39m         \u001b[32m\&quot;the email is in a wrong form, please provide it in a correct form\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:27:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with missing name &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m401\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 39 |\u001b[39m       password\u001b[33m:\u001b[39m \u001b[32m\&quot;password\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 40 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 41 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 42 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;the name is missing, please provide it\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 44 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:41:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with missing email &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 52 |\u001b[39m       password\u001b[33m:\u001b[39m \u001b[32m\&quot;password\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 53 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 54 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 55 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 56 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;the email is missing, please provide it and in a correct form\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 57 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:54:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with missing password &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m401\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 65 |\u001b[39m       email\u001b[33m:\u001b[39m \u001b[32m\&quot;test@gmail.com\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 66 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 67 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 68 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 69 |\u001b[39m       message\u001b[33m:\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 70 |\u001b[39m         \u001b[32m\&quot;the password is missing, please provide it and according to the mentioned rules\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:67:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mCREATE NEW USER with all three fields missing &#x2F;api&#x2F;v1&#x2F;users › should return 400 and message of unsuccessful registeration\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m400\u001b[39m\n    Received: \u001b[31m401\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 76 |\u001b[39m   test(\u001b[32m\&quot;should return 400 and message of unsuccessful registeration\&quot;\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m&#x3D;&gt;\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 77 |\u001b[39m     \u001b[36mconst\u001b[39m response \u001b[33m&#x3D;\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39mpost(\u001b[32m\&quot;&#x2F;api&#x2F;v1&#x2F;users\&quot;\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 78 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 79 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 80 |\u001b[39m       message\u001b[33m:\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 81 |\u001b[39m         \u001b[32m\&quot;the name, email and password fields are missing, please provide them\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:78:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mAUTHENTICATE USER using invalid email &#x2F;api&#x2F;v1&#x2F;auth › should return 401 and message of unsuccessful authentication\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;the email is in a wrong form, please provide it in a correct form\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 91 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 92 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m401\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 93 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 94 |\u001b[39m       message\u001b[33m:\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 95 |\u001b[39m         \u001b[32m\&quot;the email is in a wrong form, please provide it in a correct form\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 96 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:93:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mAUTHENTICATE USER using missing email &#x2F;api&#x2F;v1&#x2F;auth › should return 401 and message of unsuccessful authentication\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; Object.is equality\u001b[22m\n\n    Expected: \u001b[32m401\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 104 |\u001b[39m       password\u001b[33m:\u001b[39m \u001b[32m\&quot;password\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 105 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 106 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m401\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 107 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 108 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;the email is missing , please provide it in a correct form\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 109 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toBe (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:106:29)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mAUTHENTICATE USER using missing password &#x2F;api&#x2F;v1&#x2F;auth › should return 401 and message of unsuccessful authentication\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;the password is missing, please provide it.\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;Incorrect email or password\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 118 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 119 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m401\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 120 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 121 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;the password is missing, please provide it.\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 122 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 123 |\u001b[39m     token \u001b[33m&#x3D;\u001b[39m response\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mtoken\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:120:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mGET USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users › should return 403 and message of unauthorization\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to get user\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 129 |\u001b[39m     \u001b[36mconst\u001b[39m response \u001b[33m&#x3D;\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39m\u001b[36mget\u001b[39m(\u001b[32m\&quot;&#x2F;api&#x2F;v1&#x2F;users\&quot;\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 130 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m403\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 131 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 132 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;Unauthorized to get user\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 133 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 134 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:131:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mPATCH USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users › should return 403 and message of unauthorization\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to update user\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;jwt must be provided\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 143 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 144 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m403\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 145 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 146 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;Unauthorized to update user\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 147 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 148 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:145:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mDELETE USER BY TOKEN with invalid Authorization Header &#x2F;api&#x2F;v1&#x2F;users › should return 403 and message of unauthorization\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete user\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized to delete\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 153 |\u001b[39m     \u001b[36mconst\u001b[39m response \u001b[33m&#x3D;\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m\&quot;&#x2F;api&#x2F;v1&#x2F;users\&quot;\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 154 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m403\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 155 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({ message\u001b[33m:\u001b[39m \u001b[32m\&quot;Unauthorized to delete user\&quot;\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 156 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 157 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 158 |\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:155:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mDELETE ALL USERS without the key admin &#x2F;api&#x2F;v1&#x2F;all-users › should return 403 and message of successful delete\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) &#x2F;&#x2F; deep equality\u001b[22m\n\n    \u001b[32m- Expected  - 1\u001b[39m\n    \u001b[31m+ Received  + 1\u001b[39m\n\n    \u001b[2m  Object {\u001b[22m\n    \u001b[32m-   \&quot;message\&quot;: \&quot;Unauthorized to delete all users\&quot;,\u001b[39m\n    \u001b[31m+   \&quot;message\&quot;: \&quot;Unauthorized access\&quot;,\u001b[39m\n    \u001b[2m  }\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 161 |\u001b[39m     \u001b[36mconst\u001b[39m response \u001b[33m&#x3D;\u001b[39m \u001b[36mawait\u001b[39m request(app)\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m\&quot;&#x2F;api&#x2F;v1&#x2F;all-users\&quot;\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 162 |\u001b[39m     expect(response\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[35m403\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m&gt;\u001b[22m\u001b[2m\u001b[39m\u001b[90m 163 |\u001b[39m     expect(response\u001b[33m.\u001b[39mbody)\u001b[33m.\u001b[39mtoEqual({\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     |\u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 164 |\u001b[39m       message\u001b[33m:\u001b[39m \u001b[32m\&quot;Unauthorized to delete all users\&quot;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 165 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 166 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat toEqual (\u001b[22m\u001b[2m\u001b[0m\u001b[36mAPI&#x2F;mockUserAuthInValidData.test.js\u001b[39m\u001b[0m\u001b[2m:163:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:44:17)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.&lt;anonymous&gt; (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:125:22)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;regeneratorRuntime.js\u001b[2m:69:21)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:3:24)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[22m\u001b[2mnode_modules&#x2F;@babel&#x2F;runtime&#x2F;helpers&#x2F;asyncToGenerator.js\u001b[2m:22:9)\u001b[22m\u001b[2m\u001b[22m\n&quot;
+    }
+  ],
+  &quot;wasInterrupted&quot;: false
+}</div>
+        </div>
+        <div class="d-none" id="test-global-config">{
+  &quot;bail&quot;: 0,
+  &quot;changedFilesWithAncestor&quot;: false,
+  &quot;ci&quot;: false,
+  &quot;collectCoverage&quot;: false,
+  &quot;collectCoverageFrom&quot;: [],
+  &quot;coverageDirectory&quot;: &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;coverage&quot;,
+  &quot;coverageProvider&quot;: &quot;babel&quot;,
+  &quot;coverageReporters&quot;: [
+    &quot;json&quot;,
+    &quot;text&quot;,
+    &quot;lcov&quot;,
+    &quot;clover&quot;
+  ],
+  &quot;detectLeaks&quot;: false,
+  &quot;detectOpenHandles&quot;: false,
+  &quot;errorOnDeprecated&quot;: false,
+  &quot;expand&quot;: false,
+  &quot;findRelatedTests&quot;: false,
+  &quot;forceExit&quot;: false,
+  &quot;json&quot;: false,
+  &quot;lastCommit&quot;: false,
+  &quot;listTests&quot;: false,
+  &quot;logHeapUsage&quot;: false,
+  &quot;maxConcurrency&quot;: 5,
+  &quot;maxWorkers&quot;: 7,
+  &quot;noStackTrace&quot;: false,
+  &quot;nonFlagArgs&quot;: [],
+  &quot;notify&quot;: false,
+  &quot;notifyMode&quot;: &quot;failure-change&quot;,
+  &quot;onlyChanged&quot;: false,
+  &quot;onlyFailures&quot;: false,
+  &quot;openHandlesTimeout&quot;: 1000,
+  &quot;passWithNoTests&quot;: false,
+  &quot;projects&quot;: [],
+  &quot;reporters&quot;: [
+    [
+      &quot;default&quot;,
+      {}
+    ],
+    [
+      &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;jest-stare&#x2F;lib&#x2F;index.js&quot;,
+      {}
+    ]
+  ],
+  &quot;rootDir&quot;: &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&quot;,
+  &quot;runTestsByPath&quot;: false,
+  &quot;seed&quot;: 977142073,
+  &quot;skipFilter&quot;: false,
+  &quot;snapshotFormat&quot;: {
+    &quot;escapeString&quot;: false,
+    &quot;printBasicPrototype&quot;: false
+  },
+  &quot;testFailureExitCode&quot;: 1,
+  &quot;testPathPattern&quot;: &quot;&quot;,
+  &quot;testSequencer&quot;: &quot;&#x2F;Users&#x2F;davidwagih&#x2F;Documents&#x2F;siemens-QA-task&#x2F;Siemens-QA-test-automation&#x2F;node_modules&#x2F;@jest&#x2F;test-sequencer&#x2F;build&#x2F;index.js&quot;,
+  &quot;updateSnapshot&quot;: &quot;new&quot;,
+  &quot;useStderr&quot;: false,
+  &quot;verbose&quot;: true,
+  &quot;watch&quot;: false,
+  &quot;watchAll&quot;: false,
+  &quot;watchman&quot;: true,
+  &quot;workerThreads&quot;: false
+}</div>
+
+    </main>
+    <hr>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">jest-stare 2022</span>
+        </div>
+    </footer>
+</body>
+
+</html>
+
