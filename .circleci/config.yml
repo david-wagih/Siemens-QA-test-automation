@@ -10,6 +10,9 @@ jobs:
           name: Install dependencies
           command: npm install && cd UI
       - run:
+          name: Install chromedriver
+          command: sudo apt-get install chromium-chromedriver
+      - run:
           name: Run UI tests
           command: cd UI && npx nightwatch ./ui_tests
 
