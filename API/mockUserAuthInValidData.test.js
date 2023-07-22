@@ -6,7 +6,7 @@ describe("CREATE NEW USER with invalid name /api/v1/users", () => {
   test("should return 400 and message of unsuccessful registeration", async () => {
     const response = await request(app).post("/api/v1/users").send({
       name: 3,
-      email: "test@gmail.com",
+      email: "test1@gmail.com",
       password: "password"
     });
     expect(response.status).toBe(400);
@@ -19,13 +19,13 @@ describe("CREATE NEW USER with invalid name /api/v1/users", () => {
 describe("CREATE NEW USER with invalid email /api/v1/users", () => {
   test("should return 400 and message of unsuccessful registeration", async () => {
     const response = await request(app).post("/api/v1/users").send({
-      email: "test@123.com",
+      email: "test2@gmail.com",
       password: "password"
     });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
       message:
-        "the email is in a wrong form, please provide it in a correct form"
+        "the email is in a wrong form, it should be like this: example@example.com"
     });
   });
 });
@@ -33,7 +33,7 @@ describe("CREATE NEW USER with invalid email /api/v1/users", () => {
 describe("CREATE NEW USER with missing name /api/v1/users", () => {
   test("should return 400 and message of unsuccessful registeration", async () => {
     const response = await request(app).post("/api/v1/users").send({
-      email: "test@gmail.com",
+      email: "test3@gmail.com",
       password: "password"
     });
     expect(response.status).toBe(400);
@@ -59,8 +59,8 @@ describe("CREATE NEW USER with missing email /api/v1/users", () => {
 describe("CREATE NEW USER with missing password /api/v1/users", () => {
   test("should return 400 and message of unsuccessful registeration", async () => {
     const response = await request(app).post("/api/v1/users").send({
-      name: "test",
-      email: "test@gmail.com"
+      name: "test2",
+      email: "test4@gmail.com"
     });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
