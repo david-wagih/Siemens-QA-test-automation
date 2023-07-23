@@ -16,7 +16,7 @@ jobs:
           name: Check install
       - run:
           name: Install dependencies
-          command: npm install && cd UI
+          command: npm install
       - run:
           name: Install chromedriver
           command: |
@@ -24,7 +24,7 @@ jobs:
             chromedriver --version
       - run:
           name: Run UI tests
-          command: cd UI && npx nightwatch ./ui_tests
+          command: npm run test:ui
       - store_test_results:
           path: ./UI/tests_output
 
@@ -35,10 +35,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install && cd API
+          command: npm install
       - run:
           name: Run API tests
-          command: cd API && npm test
+          command: npm run test:api
 
 workflows:
   build-and-test:
