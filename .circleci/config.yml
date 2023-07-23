@@ -24,7 +24,7 @@ jobs:
             chromedriver --version
       - run:
           name: Run UI tests
-          command: cd UI && npx nightwatch ./ui_tests
+          command: set -e && cd UI && npx nightwatch ./ui_tests
       - store_test_results:
           path: ./UI/tests_output
 
