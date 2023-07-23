@@ -24,7 +24,7 @@ jobs:
             chromedriver --version
       - run:
           name: Run UI tests
-          command: set -e && cd UI && npx nightwatch ./ui_tests
+          command: cd UI && npx nightwatch --fail-fast ./ui_tests
       - store_test_results:
           path: ./UI/tests_output
 
@@ -39,8 +39,6 @@ jobs:
       - run:
           name: Run API tests
           command: cd API && npm test
-      - store_test_results:
-          path: ./jest-stare
 
 workflows:
   build-and-test:
