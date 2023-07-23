@@ -24,7 +24,7 @@ jobs:
             chromedriver --version
       - run:
           name: Run UI tests
-          command: cd UI && npx nightwatch ./ui_tests
+          command: cd UI && npx nightwatch ./ui_tests || (echo "UI tests failed"; exit 1)
 
   api-tests:
     docker:
