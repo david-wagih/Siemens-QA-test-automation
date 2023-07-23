@@ -31,7 +31,9 @@ To install the project, run the following commands:
 ## View the test reports
 
 - UI test report: `./UI/tests_output/nightwatch-html-report/index.html`
+  - Example: [UI test report](./reports-examples/UI-Report.png)
 - API test report: `./API/jest-stare/index.html`
+  - Example: [API test report](./reports-examples/API-Report.png)
 
 ### Circle CI Status
 
