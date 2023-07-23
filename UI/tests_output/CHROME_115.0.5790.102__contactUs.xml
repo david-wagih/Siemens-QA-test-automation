@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="8">
+
+  <testsuite name="contactUs"
+    errors="0" failures="1" hostname="" id="" package="contactUs" skipped="4"
+    tests="8" time="50.16" timestamp="">
+  
+    <testcase name="My Store Title Test" classname="contactUs" time="5.674" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Open Contact Us Page" classname="contactUs" time="1.988" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form with blank subject" classname="contactUs" time="1.850" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form (customer service) with Valid Data" classname="contactUs" time="1.942" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form (webmaster) with Valid Data" classname="contactUs" time="2.338" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form (customer service) with Invalid email address" classname="contactUs" time="2.557" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form (customer service) with blank message" classname="contactUs" time="1.747" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Fill in the form (customer service) with blank email" classname="contactUs" time="6.981" assertions="2">
+
+      <failure message="Testing if element &lt;#center_column .alert&gt; contains text &#39;The email cannot be blank.&#39; in 5000ms - expected &#34;contains text &#39;The email cannot be blank.&#39;&#34; but got: &#34;does not contain &#39;The email cannot be blank.&#39;&#34; (5236ms)">    at Object.Fill in the form (customer service) with blank email (/Users/davidwagih/Documents/siemens-QA-task/Siemens-QA-test-automation/UI/ui_tests/contactUs.ts:114:15)</failure>
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+    
+    <testcase
+      name="Fill in the form (Webmaster) with Invalid email address" classname="contactUs">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Fill in the form (Webmaster) with blank message" classname="contactUs">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Fill in the form (Webmaster) with blank email" classname="contactUs">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Fill in the form (customer service) with uploading a file" classname="contactUs">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

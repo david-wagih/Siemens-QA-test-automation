@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="2">
+
+  <testsuite name="ui_tests.dressSearch"
+    errors="0" failures="1" hostname="" id="" package="dressSearch" skipped="0"
+    tests="2" time="13.49" timestamp="">
+  
+    <testcase name="My Store Title Test" classname="ui_tests.dressSearch" time="5.104" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Search for a dress" classname="ui_tests.dressSearch" time="1.642" assertions="8">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+      <failure message="Failed [ok]: (Product name &#34;faded short sleeves t-shirt&#34; contains the word &#34;dress&#34;) - expected &#34;true&#34; but got: &#34;false&#34; (0ms)">    at NightwatchAPI.&lt;anonymous&gt; (/Users/davidwagih/Documents/siemens-QA-task/Siemens-QA-test-automation/UI/ui_tests/dressSearch.ts:36:40)</failure>
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>
