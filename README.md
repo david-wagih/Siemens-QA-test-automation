@@ -5,7 +5,7 @@ this project is about automating the UI testing for the [My Store](http://automa
 ## Table of contents
 
 - Requirements
-- Installation
+- Installation And Running
 
 ## Requirements
 
@@ -35,4 +35,4 @@ To install the project, run the following commands:
 
 ### Circle CI Status
 
-[![david-wagih](https://circleci.com/gh/circleci/circleci-docs/tree/teesloane-patch-5.svg?style=svg)](https://circleci.com/gh/david-wagih/Siemens-QA-test-automation?branch=master)
+[![CircleCI](https://circleci.com/gh/david-wagih/Siemens-QA-test-automation.svg?style=svg)](https://circleci.com/gh/david-wagih/Siemens-QA-test-automation)
