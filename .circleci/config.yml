@@ -24,9 +24,9 @@ jobs:
             chromedriver --version
       - run:
           name: Run UI tests
-          command: cd UI && npx nightwatch --fail-fast ./ui_tests
-      - store_test_results:
-          path: ./UI/tests_output
+          command: cd UI && npx nightwatch --config nightwatch.conf.js --fail-fast --reporter html-reporter.js ./ui_tests
+      - store_artifacts:
+          path: reports
 
   api-tests:
     docker:
