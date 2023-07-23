@@ -25,6 +25,8 @@ jobs:
       - run:
           name: Run UI tests
           command: cd UI && npx nightwatch ./ui_tests || (echo "UI tests failed"; exit 1)
+      - store_test_results:
+          path: ./UI/tests_output
 
   api-tests:
     docker:
