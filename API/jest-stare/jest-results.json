@@ -26,7 +26,7 @@
     "unmatched": 0,
     "updated": 0
   },
-  "startTime": 1690085221687,
+  "startTime": 1690089032494,
   "success": false,
   "testResults": [
     {
@@ -37,10 +37,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1690085223229,
-        "runtime": 1407,
+        "end": 1690089033790,
+        "runtime": 1140,
         "slow": false,
-        "start": 1690085221822
+        "start": 1690089032650
       },
       "skipped": false,
       "snapshot": {
@@ -58,7 +58,7 @@
           "ancestorTitles": [
             "CREATE NEW USER /api/v1/users"
           ],
-          "duration": 25,
+          "duration": 24,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "CREATE NEW USER /api/v1/users should return 200 and message of successful registeration",
@@ -88,7 +88,7 @@
           "ancestorTitles": [
             "GET USER BY TOKEN /api/v1/users"
           ],
-          "duration": 4,
+          "duration": 2,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "GET USER BY TOKEN /api/v1/users should return 200 and message of successful authentication",
@@ -103,7 +103,7 @@
           "ancestorTitles": [
             "PATCH USER BY TOKEN /api/v1/users"
           ],
-          "duration": 3,
+          "duration": 2,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "PATCH USER BY TOKEN /api/v1/users should return 200 and message of successful update",
@@ -118,7 +118,7 @@
           "ancestorTitles": [
             "DELETE USER BY TOKEN /api/v1/users"
           ],
-          "duration": 2,
+          "duration": 3,
           "failureDetails": [
             {
               "matcherResult": {
@@ -145,7 +145,7 @@
           "ancestorTitles": [
             "DELETE ALL USERS /api/v1/all-users"
           ],
-          "duration": 3,
+          "duration": 5,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DELETE ALL USERS /api/v1/all-users should return 200 and message of successful delete",
@@ -167,10 +167,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1690085223273,
-        "runtime": 1450,
+        "end": 1690089033825,
+        "runtime": 1175,
         "slow": false,
-        "start": 1690085221823
+        "start": 1690089032650
       },
       "skipped": false,
       "snapshot": {
@@ -188,7 +188,7 @@
           "ancestorTitles": [
             "CREATE NEW USER with invalid name /api/v1/users"
           ],
-          "duration": 25,
+          "duration": 24,
           "failureDetails": [
             {
               "matcherResult": {
@@ -269,7 +269,7 @@
           "ancestorTitles": [
             "CREATE NEW USER with missing email /api/v1/users"
           ],
-          "duration": 4,
+          "duration": 1,
           "failureDetails": [
             {
               "matcherResult": {
@@ -323,7 +323,7 @@
           "ancestorTitles": [
             "CREATE NEW USER with all three fields missing /api/v1/users"
           ],
-          "duration": 1,
+          "duration": 4,
           "failureDetails": [
             {
               "matcherResult": {
@@ -381,7 +381,7 @@
           "ancestorTitles": [
             "AUTHENTICATE USER using missing email /api/v1/auth"
           ],
-          "duration": 2,
+          "duration": 3,
           "failureDetails": [
             {
               "matcherResult": {
@@ -439,7 +439,7 @@
           "ancestorTitles": [
             "GET USER BY TOKEN with invalid Authorization Header /api/v1/users"
           ],
-          "duration": 4,
+          "duration": 2,
           "failureDetails": [
             {
               "matcherResult": {
@@ -470,7 +470,7 @@
           "ancestorTitles": [
             "PATCH USER BY TOKEN with invalid Authorization Header /api/v1/users"
           ],
-          "duration": 4,
+          "duration": 2,
           "failureDetails": [
             {
               "matcherResult": {
@@ -532,7 +532,7 @@
           "ancestorTitles": [
             "DELETE ALL USERS without the key admin /api/v1/all-users"
           ],
-          "duration": 1,
+          "duration": 2,
           "failureDetails": [
             {
               "matcherResult": {
