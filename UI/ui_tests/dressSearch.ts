@@ -2,14 +2,14 @@ import { NightwatchTests } from "nightwatch";
 
 const home: NightwatchTests = {
   "My Store Title Test": () => {
-    browser
+    return browser
       .url("http://automationpractice.multiformis.com/index.php")
       .waitForElementVisible("body")
       .assert.titleContains("My Store");
   },
 
   "Search for a dress": () => {
-    browser
+    return browser
       .setValue("#search_query_top", "dress")
       .click("#searchbox > button")
       .waitForElementVisible("#product_list .ajax_block_product")
