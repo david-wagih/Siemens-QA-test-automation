@@ -5,16 +5,16 @@
 
   <testsuite name="dressSearch"
     errors="0" failures="2" hostname="" id="" package="dressSearch" skipped="0"
-    tests="2" time="81.27" timestamp="">
+    tests="2" time="46.04" timestamp="">
   
-    <testcase name="My Store Title Test" classname="dressSearch" time="38.77" assertions="2">
+    <testcase name="My Store Title Test" classname="dressSearch" time="18.74" assertions="2">
 
     
 
     
     </testcase>
   
-    <testcase name="Search for a dress" classname="dressSearch" time="1.858" assertions="9">
+    <testcase name="Search for a dress" classname="dressSearch" time="4.285" assertions="9">
 
     
 
