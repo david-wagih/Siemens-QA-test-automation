@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./node_modules/mock-user-auth/bin/www.js",
     "test:api": "cd API && jest --verbose --reporters default jest-stare",
-    "test:ui": "cd UI && npx nightwatch ./ui_tests"
+    "test:ui": "cd UI && npx nightwatch --fail-fast ./ui_tests"
   },
   "keywords": [],
   "author": "",

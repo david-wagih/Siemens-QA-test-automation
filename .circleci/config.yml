@@ -1,6 +1,8 @@
 version: 2.1
+
 orbs:
   browser-tools: circleci/browser-tools@1.4.3
+
 jobs:
   ui-tests:
     docker:
@@ -10,18 +12,13 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
+          name: Check install
           command: |
             google-chrome --version
             chromedriver --version
-          name: Check install
       - run:
           name: Install dependencies
           command: npm install
-      - run:
-          name: Install chromedriver
-          command: |
-            google-chrome --version
-            chromedriver --version
       - run:
           name: Run UI tests
           command: npm run test:ui
