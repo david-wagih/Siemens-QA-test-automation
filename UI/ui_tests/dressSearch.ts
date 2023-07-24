@@ -33,7 +33,7 @@ const home: NightwatchTests = {
                       anchor["elementId"],
                       (anchorText: any) => {
                         const productName = anchorText.value.toLowerCase();
-                        browser.verify.ok(
+                        browser.assert.ok(
                           productName.includes("dress"),
                           `Product name "${productName}" contains the word "dress"`
                         );

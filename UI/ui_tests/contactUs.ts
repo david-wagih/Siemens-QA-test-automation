@@ -15,9 +15,8 @@ const home: NightwatchTests = {
         selector: "#contact-link a",
         timeout: 2000
       })
-      .verify.titleContains("Contact us - My Store");
+      .assert.titleContains("Contact us - My Store");
   },
-  // We want to test all possible combinations of the form
   "Fill in the form with blank subject": () => {
     return browser
       .url(
@@ -29,7 +28,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "Please select a subject from the list provided."
       );
@@ -46,7 +45,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "Your message has been successfully sent to our team."
       );
@@ -63,7 +62,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "Your message has been successfully sent to our team."
       );
@@ -80,7 +79,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains("#center_column .alert", "Invalid email address.");
+      .assert.textContains("#center_column .alert", "Invalid email address.");
   },
 
   "Fill in the form (customer service) with blank message": () => {
@@ -94,7 +93,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "The message cannot be blank."
       );
@@ -111,7 +110,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "The email cannot be blank."
       );
@@ -128,7 +127,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains("#center_column .alert", "Invalid email address.");
+      .assert.textContains("#center_column .alert", "Invalid email address.");
   },
 
   "Fill in the form (Webmaster) with blank message": () => {
@@ -142,7 +141,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "The message cannot be blank."
       );
@@ -159,33 +158,28 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .verify.textContains(
+      .assert.textContains(
         "#center_column .alert",
         "The email cannot be blank."
       );
   },
 
   "Fill in the form (customer service) with uploading a file": () => {
-    return (
-      browser
-        .url(
-          "http://automationpractice.multiformis.com/index.php?controller=contact"
-        )
-        // .waitForElementVisible("body")
-        .setValue("#id_contact", "Customer service")
-        .setValue("#email", "test@gmail.com")
-        .setValue("#id_order", "12345")
-        .setValue("#message", "This is a test message")
-        .setValue(
-          "#fileUpload",
-          require("path").resolve(__dirname + "/test.txt")
-        )
-        .click("#submitMessage")
-        .verify.textContains(
-          "#center_column .alert",
-          "Your message has been successfully sent to our team."
-        )
-    );
+    return browser
+      .url(
+        "http://automationpractice.multiformis.com/index.php?controller=contact"
+      )
+      .waitForElementVisible("body")
+      .setValue("#id_contact", "Customer service")
+      .setValue("#email", "test@gmail.com")
+      .setValue("#id_order", "12345")
+      .setValue("#message", "This is a test message")
+      .setValue("#fileUpload", require("path").resolve(__dirname + "/test.txt"))
+      .click("#submitMessage")
+      .assert.textContains(
+        "#center_column .alert",
+        "Your message has been successfully sent to our team."
+      );
   }
 };
 

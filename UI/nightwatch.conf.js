@@ -41,7 +41,7 @@ module.exports = {
     default: {
       disable_error_log: false,
       launch_url: "http://localhost",
-
+      skip_testcases_on_fail: false,
       screenshots: {
         enabled: false,
         path: "screens",

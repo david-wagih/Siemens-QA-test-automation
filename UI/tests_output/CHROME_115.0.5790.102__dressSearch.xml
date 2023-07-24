@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="2"
+            failures="1"
             tests="2">
 
   <testsuite name="dressSearch"
-    errors="0" failures="2" hostname="" id="" package="dressSearch" skipped="0"
-    tests="2" time="46.04" timestamp="">
+    errors="0" failures="1" hostname="" id="" package="dressSearch" skipped="0"
+    tests="2" time="35.48" timestamp="">
   
-    <testcase name="My Store Title Test" classname="dressSearch" time="18.74" assertions="2">
+    <testcase name="My Store Title Test" classname="dressSearch" time="15.51" assertions="2">
 
     
 
     
     </testcase>
   
-    <testcase name="Search for a dress" classname="dressSearch" time="4.285" assertions="9">
+    <testcase name="Search for a dress" classname="dressSearch" time="2.230" assertions="8">
 
     
 
@@ -29,8 +29,6 @@
     
 
       <failure message="Failed [ok]: (Product name &#34;faded short sleeves t-shirt&#34; contains the word &#34;dress&#34;) - expected &#34;true&#34; but got: &#34;false&#34; (0ms)">    at NightwatchAPI.&lt;anonymous&gt; (/Users/davidwagih/Documents/siemens-QA-task/Siemens-QA-test-automation/UI/ui_tests/dressSearch.ts:36:40)</failure>
-
-      <failure message="Failed [ok]: (Product name &#34;blouse&#34; contains the word &#34;dress&#34;) - expected &#34;true&#34; but got: &#34;false&#34; (0ms)">    at NightwatchAPI.&lt;anonymous&gt; (/Users/davidwagih/Documents/siemens-QA-task/Siemens-QA-test-automation/UI/ui_tests/dressSearch.ts:36:40)</failure>
 
     
     </testcase>
