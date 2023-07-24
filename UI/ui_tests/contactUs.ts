@@ -15,7 +15,7 @@ const home: NightwatchTests = {
         selector: "#contact-link a",
         timeout: 2000
       })
-      .assert.titleContains("Contact us - My Store");
+      .verify.titleContains("Contact us - My Store");
   },
   // We want to test all possible combinations of the form
   "Fill in the form with blank subject": () => {
@@ -29,7 +29,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "Please select a subject from the list provided."
       );
@@ -46,7 +46,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "Your message has been successfully sent to our team."
       );
@@ -63,7 +63,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "Your message has been successfully sent to our team."
       );
@@ -80,7 +80,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains("#center_column .alert", "Invalid email address.");
+      .verify.textContains("#center_column .alert", "Invalid email address.");
   },
 
   "Fill in the form (customer service) with blank message": () => {
@@ -94,7 +94,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "The message cannot be blank."
       );
@@ -111,7 +111,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "The email cannot be blank."
       );
@@ -128,7 +128,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains("#center_column .alert", "Invalid email address.");
+      .verify.textContains("#center_column .alert", "Invalid email address.");
   },
 
   "Fill in the form (Webmaster) with blank message": () => {
@@ -142,7 +142,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "The message cannot be blank."
       );
@@ -159,7 +159,7 @@ const home: NightwatchTests = {
       .setValue("#id_order", "12345")
       .setValue("#message", "This is a test message")
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "The email cannot be blank."
       );
@@ -177,7 +177,7 @@ const home: NightwatchTests = {
       .setValue("#message", "This is a test message")
       .setValue("#fileUpload", require("path").resolve(__dirname + "/test.txt"))
       .click("#submitMessage")
-      .assert.textContains(
+      .verify.textContains(
         "#center_column .alert",
         "Your message has been successfully sent to our team."
       );
