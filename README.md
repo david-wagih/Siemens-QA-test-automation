@@ -1,6 +1,34 @@
 # QA Test Automation
 
-this project is about automating the UI testing for the [My Store](http://automationpractice.multiformis.com/index.php) using [Nightwatch.js](https://nightwatchjs.org/) and the API testing for the [mock-user-auth-npm](https://www.npmjs.com/package/mock-user-auth) using [supertest](https://www.npmjs.com/package/supertest) and [jest](https://jestjs.io/), all with the help of [CircleCI](https://circleci.com/) for CI/CD.
+## Project Description
+
+1. UI testing for the [My Store](http://automationpractice.multiformis.com/index.php) using [Nightwatch.js](https://nightwatchjs.org/), focusing on two main parts:
+
+- the Search for a dress Feature
+- the Contact Us Form
+
+2. API testing for the [mock-user-auth-npm](https://www.npmjs.com/package/mock-user-auth) using [supertest](https://www.npmjs.com/package/supertest) and [jest](https://jestjs.io/), focusing on:
+
+- Testing all the endpoints routes
+- using valid / invalid request body
+- using valid / invalid authorization
+
+3. Setting up CI/CD pipeline using [CircleCI](https://circleci.com/).
+
+## Project Structure
+
+1. UI
+
+   - ui_tests: contains the UI tests
+   - tests_output: contains the UI test reports
+
+2. API
+
+   - contains the API tests
+   - jest-stare: contains the API test reports
+
+3. .circleci
+   - contains the CircleCI config file for CI/CD
 
 ## Table of contents
 
