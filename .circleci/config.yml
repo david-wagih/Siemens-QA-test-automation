@@ -36,6 +36,8 @@ jobs:
       - run:
           name: Run API tests
           command: npm run test:api
+      - store_test_results:
+          path: ./API/tests_output
 
 workflows:
   build-and-test:
